@@ -11,10 +11,19 @@ var min_steering = 0.1
 
 var manual_control = true
 
-func set_limited_steering(new_steering):
-	steering = sign(new_steering) * min(abs(new_steering), max_steering)
-	if abs(steering) < min_steering:
-		steering = 0
+var STEERING_RATE = 1.0
+
+func set_limited_steering(new_steering, delta):
+	var adjusted_steering = clamp(new_steering, -1 * max_steering, max_steering)
+	var steer = steering
+	var lerp_factor = STEERING_RATE * delta
+	steering = lerp(
+		steer * 1.0,
+		adjusted_steering * 1.0,
+		0.1
+	)
+	#if abs(steering) < min_steering:
+	#	steering = 0
 	
 
 func set_movement_target(movement_target: Vector3):
@@ -35,11 +44,11 @@ func _physics_process(delta):
 	
 func _physics_process_manual(delta):
 	if Input.is_action_pressed("steer_left"):
-		set_limited_steering(max_steering)
+		set_limited_steering(max_steering, delta)
 	elif Input.is_action_pressed("steer_right"):
-		set_limited_steering(max_steering * -1)
+		set_limited_steering(max_steering * -1, delta)
 	else:
-		set_limited_steering(0)
+		set_limited_steering(0, delta)
 	
 	if Input.is_action_pressed("throttle"):
 		engine_force = max_engine_force
@@ -75,7 +84,7 @@ func _physics_process_ai(delta):
 	).basis.get_euler()
 	
 	#$Label3D.text = "euler looking at point: \nX: " + str(euler.x) + "\nY: " + str(euler.y) + "\nZ: " + str(euler.z) + "\n"
-	set_limited_steering(-1 * euler.y)
+	set_limited_steering(-1 * euler.y, delta)
 	
 	engine_force = max_engine_force
 	

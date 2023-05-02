@@ -85,7 +85,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44128, 0.316528)
 shape = SubResource("ConvexPolygonShape3D_poj74")
 
 [node name="Label3D" type="Label3D" parent="NPC"]
-visible = false
 billboard = 1
 no_depth_test = true
 fixed_size = true
