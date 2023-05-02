@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjhhu7eh51kyw"]
+
+[ext_resource type="Script" path="res://entities/Checkpoint.gd" id="1_4ni86"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7xhd0"]
+transparency = 1
+albedo_color = Color(0.309804, 0.596078, 0.219608, 0.6)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_eekbe"]
+material = SubResource("StandardMaterial3D_7xhd0")
+top_radius = 3.0
+bottom_radius = 3.0
+height = 6.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3c365"]
+points = PackedVector3Array(-2.94731, -2.94731, -0.552188, 2.94731, 2.94731, 0.552188, 2.94731, 2.94731, -0.552188, 2.94731, -2.94731, 0.552188, -0.92045, 2.94533, 2.85307, -0.552293, 2.9473, -2.9473, 0.92045, -2.94533, -2.85307, 0.552293, -2.9473, 2.9473, -2.94731, 2.94731, -0.552188, -2.37541, -2.92389, 1.82714, -1.82732, -2.92359, -2.37528, 1.82704, 2.92315, 2.37549, 2.20894, 2.94468, -2.02461, 2.56154, -2.92723, -1.55473, -2.75088, 2.93416, 1.19193, -2.37541, 2.92389, -1.82714, 2.37562, -2.92344, 1.82686, -0.92045, -2.94533, 2.85307, 0.92045, 2.94533, -2.85307, -0.552293, -2.9473, -2.9473, 0.552293, 2.9473, 2.9473, -1.82732, 2.92359, 2.37528, -2.94731, -2.94731, 0.552188, 1.82704, -2.92315, -2.37549, 1.3771, -2.93893, 2.66334, 2.56154, 2.92723, 1.55473, -1.55518, 2.92749, -2.56127, -2.56154, -2.92723, -1.55473, 2.94731, -2.94731, -0.552188, -1.55518, -2.92749, 2.56127, 2.75088, 2.93416, -1.19193, -2.94731, 2.94731, 0.552188)
+
+[node name="Checkpoint" type="Area3D" groups=["checkpoint"]]
+script = ExtResource("1_4ni86")
+
+[node name="Checkpoint" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.3268, 9.37563, 11.6595)
+mesh = SubResource("CylinderMesh_eekbe")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.3268, 9.37563, 11.6595)
+shape = SubResource("ConvexPolygonShape3D_3c365")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
